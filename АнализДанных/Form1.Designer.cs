@@ -35,6 +35,7 @@
             openFileDialog1 = new OpenFileDialog();
             button1 = new Button();
             listBox1 = new ListBox();
+            comboBox1 = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             SuspendLayout();
             // 
@@ -64,7 +65,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(35, 34);
+            button1.Location = new Point(51, 12);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
             button1.TabIndex = 1;
@@ -81,11 +82,22 @@
             listBox1.Size = new Size(296, 244);
             listBox1.TabIndex = 2;
             // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(151, 13);
+            comboBox1.MaximumSize = new Size(300, 0);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(230, 28);
+            comboBox1.TabIndex = 3;
+            comboBox1.SelectedValueChanged += comboBox1_SelectedValueChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1335, 817);
+            Controls.Add(comboBox1);
             Controls.Add(listBox1);
             Controls.Add(button1);
             Controls.Add(chart1);
@@ -101,5 +113,6 @@
         private OpenFileDialog openFileDialog1;
         private Button button1;
         private ListBox listBox1;
+        private ComboBox comboBox1;
     }
 }

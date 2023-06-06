@@ -1,4 +1,5 @@
 using Aspose.Cells;
+using System.Collections.Concurrent;
 using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -6,7 +7,7 @@ namespace АнализДанных
 {
     public partial class Form1 : Form
     {
-        List<FileStream> files = new();
+        ConcurrentDictionary<string, Dictionary<string, double>> fileParameterValue = new();
         public Form1()
         {
             InitializeComponent();
@@ -30,33 +31,47 @@ namespace АнализДанных
                     {
                         //ListBox listBox = new ListBox();
                         var sheet = doc.Worksheets[0];
-                        int rows = sheet.Cells.MaxDataRow;
-                        int cols = sheet.Cells.MaxDataColumn;
+                        var cells = sheet.Cells;
+                        int rows = cells.MaxDataRow;
+                        int cols = cells.MaxDataColumn;
                         StringBuilder @string = new StringBuilder();
-                        for (int i = 0; i < rows; i++)
+                        Dictionary<string, double> parametrValues = new Dictionary<string, double>();
+
+                        for (int i = 1; i < rows; i++)
                         {
-                            for (int j = 0; j < cols; j++)
+                            for (int j = 0; j < cols; j += 2)
                             {
-                                @string.Append(sheet.Cells[i, j].Value + " | ");
+                                try
+                                {
+                                    parametrValues.Add(cells[i, 0].Value.ToString(), double.Parse(cells[i, 2].Value.ToString()));
+                                }
+                                catch
+                                {
+                                    continue;
+                                }
+                                @string.Append(sheet.Cells[i, j].Value + " ");
                             }
-                            Action action = () => { listBox1.Items.Add(@string); };
-                            listBox1.Invoke(action);
-                            if(listBox1.InvokeRequired)
-                            {
-                                listBox1.Invoke(action);
-                            } else
-                            {
-                                listBox1.Items.Add(@string);
-                            }
-                            @string.Clear();
+                            //Action action = () => { listBox1.Items.Add(@string); };                           
+                            //listBox1.Invoke(action);
+                            //@string.Clear();
+                            //var cells = sheetPart.Worksheet.Descendants<Cell>().Select(c => c.InnerText).ToList();
+                            //cells.ForEach(cell=> { listBox.Items.Add(cell); });
+                            //Action action = () => { listBox1.Items.AddRange(listBox.Items); };
+                            //listBox1.Invoke(action);
                         }
-                        //var cells = sheetPart.Worksheet.Descendants<Cell>().Select(c => c.InnerText).ToList();
-                        //cells.ForEach(cell=> { listBox.Items.Add(cell); });
-                        //Action action = () => { listBox1.Items.AddRange(listBox.Items); };
-                        //listBox1.Invoke(action);
+                        fileParameterValue.OrderBy(s => s.Key);
+                        fileParameterValue.TryAdd(doc.FileName.Substring(doc.FileName.Length - 13, 8).Replace("_", ":"), parametrValues);
                     }
                 });
             }
+
+            comboBox1.Items.AddRange(fileParameterValue.ElementAt(0).Value.Keys.ToArray());
+            listBox1.Items.Add(fileParameterValue.Values.Count);
+
+        }
+        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
