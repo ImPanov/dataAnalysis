@@ -1,6 +1,5 @@
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
+using Aspose.Cells;
+using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace АнализДанных
@@ -27,13 +26,34 @@ namespace АнализДанных
             {
                 Parallel.ForEach(openFileDialog1.FileNames, file =>
                 {
-                using (SpreadsheetDocument doc = SpreadsheetDocument.Open(file, true))
-                {
-                    var sheet = doc.WorkbookPart.Workbook.Descendants<Sheet>().First();
-                    var sheetPart = (WorksheetPart)doc.WorkbookPart.GetPartById(sheet.Id);
-                    var cells = sheetPart.Worksheet.Descendants<Cell>().Select(c => c.InnerText).OfType<string>().ToList();
-                    cells.ForEach(value => { listBox1.Items.Add(value); });
-                        //listBox1.Invoke(new Action(() => { listBox1.Items.Add(value) }));
+                    using (Workbook doc = new Workbook(file))
+                    {
+                        //ListBox listBox = new ListBox();
+                        var sheet = doc.Worksheets[0];
+                        int rows = sheet.Cells.MaxDataRow;
+                        int cols = sheet.Cells.MaxDataColumn;
+                        StringBuilder @string = new StringBuilder();
+                        for (int i = 0; i < rows; i++)
+                        {
+                            for (int j = 0; j < cols; j++)
+                            {
+                                @string.Append(sheet.Cells[i, j].Value + " | ");
+                            }
+                            Action action = () => { listBox1.Items.Add(@string); };
+                            listBox1.Invoke(action);
+                            if(listBox1.InvokeRequired)
+                            {
+                                listBox1.Invoke(action);
+                            } else
+                            {
+                                listBox1.Items.Add(@string);
+                            }
+                            @string.Clear();
+                        }
+                        //var cells = sheetPart.Worksheet.Descendants<Cell>().Select(c => c.InnerText).ToList();
+                        //cells.ForEach(cell=> { listBox.Items.Add(cell); });
+                        //Action action = () => { listBox1.Items.AddRange(listBox.Items); };
+                        //listBox1.Invoke(action);
                     }
                 });
             }
