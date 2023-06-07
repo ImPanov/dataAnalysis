@@ -31,33 +31,14 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             openFileDialog1 = new OpenFileDialog();
             button1 = new Button();
-            listBox1 = new ListBox();
-            comboBox1 = new ComboBox();
+            chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            checkedListBox1 = new CheckedListBox();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             SuspendLayout();
-            // 
-            // chart1
-            // 
-            chartArea1.Name = "ChartArea1";
-            chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            chart1.Legends.Add(legend1);
-            chart1.Location = new Point(390, 45);
-            chart1.Name = "chart1";
-            series1.BorderWidth = 3;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Legend = "Legend1";
-            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series1.Name = "Series1";
-            series1.YValuesPerPoint = 2;
-            chart1.Series.Add(series1);
-            chart1.Size = new Size(860, 705);
-            chart1.TabIndex = 0;
-            chart1.Text = "chart1";
             // 
             // openFileDialog1
             // 
@@ -65,42 +46,64 @@
             // 
             // button1
             // 
-            button1.Location = new Point(51, 12);
+            button1.Location = new Point(12, 13);
             button1.Name = "button1";
-            button1.Size = new Size(94, 29);
+            button1.Size = new Size(133, 29);
             button1.TabIndex = 1;
-            button1.Text = "button1";
+            button1.Text = "Выберите файл";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // listBox1
+            // chart1
             // 
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 20;
-            listBox1.Location = new Point(51, 100);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(296, 244);
-            listBox1.TabIndex = 2;
+            chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea1.AxisY.IsStartedFromZero = false;
+            chartArea1.Name = "ChartArea1";
+            chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(497, 14);
+            chart1.Name = "chart1";
+            series1.BorderWidth = 3;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            chart1.Series.Add(series1);
+            chart1.Size = new Size(768, 375);
+            chart1.TabIndex = 4;
+            chart1.Tag = "";
+            chart1.Text = "chart1";
+            title1.Name = "Title1";
+            chart1.Titles.Add(title1);
             // 
-            // comboBox1
+            // checkedListBox1
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(151, 13);
-            comboBox1.MaximumSize = new Size(300, 0);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(230, 28);
-            comboBox1.TabIndex = 3;
-            comboBox1.SelectedValueChanged += comboBox1_SelectedValueChanged;
+            checkedListBox1.FormattingEnabled = true;
+            checkedListBox1.Location = new Point(151, 14);
+            checkedListBox1.Name = "checkedListBox1";
+            checkedListBox1.Size = new Size(221, 114);
+            checkedListBox1.TabIndex = 5;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(12, 48);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 29);
+            button2.TabIndex = 6;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1335, 817);
-            Controls.Add(comboBox1);
-            Controls.Add(listBox1);
-            Controls.Add(button1);
+            Controls.Add(button2);
+            Controls.Add(checkedListBox1);
             Controls.Add(chart1);
+            Controls.Add(button1);
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
@@ -108,11 +111,10 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private OpenFileDialog openFileDialog1;
         private Button button1;
-        private ListBox listBox1;
-        private ComboBox comboBox1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private CheckedListBox checkedListBox1;
+        private Button button2;
     }
 }
