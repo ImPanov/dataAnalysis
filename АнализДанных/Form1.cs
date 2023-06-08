@@ -87,6 +87,8 @@ namespace АнализДанных
         {
             dataGridView1.Rows.Clear();
             chart1.Series.Clear();
+            chart1.ChartAreas[0].AxisY.Interval = 0;
+
             foreach (var item in checkedListBox1.CheckedItems)
             {
                 var xValues = new List<string>();
