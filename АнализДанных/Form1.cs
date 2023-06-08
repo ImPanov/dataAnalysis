@@ -1,9 +1,11 @@
 using Aspose.Cells;
+using Aspose.Cells.Charts;
 using System.Collections.Concurrent;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Series = System.Windows.Forms.DataVisualization.Charting.Series;
 
 namespace АнализДанных
 {
@@ -51,13 +53,6 @@ namespace АнализДанных
                                 }
                                 @string.Append(sheet.Cells[i, j].Value + " ");
                             }
-                            //Action action = () => { listBox1.Items.Add(@string); };                           
-                            //listBox1.Invoke(action);
-                            //@string.Clear();
-                            //var cells = sheetPart.Worksheet.Descendants<Cell>().Select(c => c.InnerText).ToList();
-                            //cells.ForEach(cell=> { listBox.Items.Add(cell); });
-                            //Action action = () => { listBox1.Items.AddRange(listBox.Items); };
-                            //listBox1.Invoke(action);
                         }
                         fileParameterValue.OrderBy(s => s.Key);
                         fileParameterValue.TryAdd(doc.FileName.Substring(doc.FileName.Length - 13, 8).Replace("_", ":"), parametrValues);
@@ -65,11 +60,32 @@ namespace АнализДанных
                 });
             }
             checkedListBox1.Items.AddRange(fileParameterValue.ElementAt(0).Value.Keys.ToArray());
+            PrintDataGrid();
+        }
+        private void PrintDataGrid()
+        {
+            dataGridView1.Rows.AsParallel();
+            foreach (var key in fileParameterValue.First().Value.Keys)
+            {
+                foreach (var value in fileParameterValue.Keys)
+                {
+                    try
+                    {
+                        dataGridView1.Rows.Add(key, fileParameterValue[value][key]);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
 
+                }
+
+            }
         }
 
-        private void PrintChart()
+        private void PrintSelectedParameters()
         {
+            dataGridView1.Rows.Clear();
             chart1.Series.Clear();
             foreach (var item in checkedListBox1.CheckedItems)
             {
@@ -79,6 +95,7 @@ namespace АнализДанных
                 {
                     xValues.Add(key);
                     yValues.Add(fileParameterValue[key][item.ToString()]);
+                    dataGridView1.Rows.Add(item.ToString(), fileParameterValue[key][item.ToString()]);
                 }
                 Series series = new(item.ToString());
                 series.ChartType = SeriesChartType.Line;
@@ -86,26 +103,50 @@ namespace АнализДанных
                 chart1.Series.Add(series);
                 chart1.Titles[0].Text = string.Join(" , ", chart1.Series.Select(s => s.Name).ToArray());
             }
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            chart1.Series.Clear();
-            foreach (var item in checkedListBox1.CheckedItems)
+            PrintSelectedParameters();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.Filter = "PNG Image|*.png|JPeg Image|*.jpg";
+            saveFileDialog1.Title = "Save Chart As Image File";
+            saveFileDialog1.FileName = "Sample.png";
+
+            DialogResult result = saveFileDialog1.ShowDialog();
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (result == DialogResult.OK && saveFileDialog1.FileName != "")
             {
-                var xValues = new List<string>();
-                var yValues = new List<double>();
-                foreach (var key in fileParameterValue.Keys)
+                try
                 {
-                    xValues.Add(key);
-                    yValues.Add(fileParameterValue[key][item.ToString()]);
+                    if (saveFileDialog1.CheckPathExists)
+                    {
+                        if (saveFileDialog1.FilterIndex == 2)
+                        {
+                            chart1.SaveImage(saveFileDialog1.FileName, ChartImageFormat.Jpeg);
+                        }
+                        else if (saveFileDialog1.FilterIndex == 1)
+                        {
+                            chart1.SaveImage(saveFileDialog1.FileName, ChartImageFormat.Png);
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Given Path does not exist");
+                    }
                 }
-                Series series = new(item.ToString());
-                series.ChartType = SeriesChartType.Line;
-                series.Points.DataBindXY(xValues, yValues);
-                chart1.Series.Add(series);
-                chart1.Titles[0].Text = string.Join(" , ", chart1.Series.Select(s => s.Name).ToArray());
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
+            //chart1.SaveImage($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\{DateTime.Now.ToString().Replace(" ", "T")}.Png", ChartImageFormat.Png);
         }
     }
 }
