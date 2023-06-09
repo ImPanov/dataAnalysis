@@ -1,6 +1,7 @@
 using Aspose.Cells;
 using Aspose.Cells.Charts;
 using System.Collections.Concurrent;
+using System.Collections.Immutable;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Windows.Forms;
@@ -12,11 +13,11 @@ namespace АнализДанных
     public partial class Form1 : Form
     {
         ConcurrentDictionary<string, Dictionary<string, double>> fileParameterValue = new();
+        Dictionary<string, Dictionary<string, double>> dictFileParameterValue = new();
         public Form1()
         {
             InitializeComponent();
             openFileDialog1.Multiselect = true;
-
             chart1.Series[0].Name = "VALUE";
             chart1.Series[0].MarkerStep = 5;
             chart1.Series[0].XValueType = ChartValueType.String;
@@ -54,24 +55,24 @@ namespace АнализДанных
                                 @string.Append(sheet.Cells[i, j].Value + " ");
                             }
                         }
-                        fileParameterValue.OrderBy(s => s.Key);
                         fileParameterValue.TryAdd(doc.FileName.Substring(doc.FileName.Length - 13, 8).Replace("_", ":"), parametrValues);
                     }
                 });
             }
+            dictFileParameterValue = fileParameterValue.OrderBy(s => s.Key).ToDictionary(t => t.Key, t => t.Value);
             checkedListBox1.Items.AddRange(fileParameterValue.ElementAt(0).Value.Keys.ToArray());
             PrintDataGrid();
         }
         private void PrintDataGrid()
         {
-            dataGridView1.Rows.AsParallel();
-            foreach (var key in fileParameterValue.First().Value.Keys)
+            dataGridView1.Rows.Clear();
+            foreach (var key in dictFileParameterValue.First().Value.Keys)
             {
-                foreach (var value in fileParameterValue.Keys)
+                foreach (var value in dictFileParameterValue.Keys)
                 {
                     try
                     {
-                        dataGridView1.Rows.Add(key, fileParameterValue[value][key]);
+                        dataGridView1.Rows.Add(value, key, dictFileParameterValue[value][key]);
                     }
                     catch (Exception)
                     {
@@ -87,24 +88,25 @@ namespace АнализДанных
         {
             dataGridView1.Rows.Clear();
             chart1.Series.Clear();
-            chart1.ChartAreas[0].AxisY.Interval = 0;
-
+            chart1.ResetAutoValues();
             foreach (var item in checkedListBox1.CheckedItems)
             {
                 var xValues = new List<string>();
                 var yValues = new List<double>();
-                foreach (var key in fileParameterValue.Keys)
+                foreach (var key in dictFileParameterValue.Keys)
                 {
                     xValues.Add(key);
-                    yValues.Add(fileParameterValue[key][item.ToString()]);
-                    dataGridView1.Rows.Add(item.ToString(), fileParameterValue[key][item.ToString()]);
+                    yValues.Add(dictFileParameterValue[key][item.ToString()]);
+                    dataGridView1.Rows.Add(key, item.ToString(), dictFileParameterValue[key][item.ToString()]);
                 }
                 Series series = new(item.ToString());
                 series.ChartType = SeriesChartType.Line;
                 series.Points.DataBindXY(xValues, yValues);
                 chart1.Series.Add(series);
                 chart1.Titles[0].Text = string.Join(" , ", chart1.Series.Select(s => s.Name).ToArray());
+                
             }
+            
 
         }
 
@@ -150,5 +152,7 @@ namespace АнализДанных
             }
             //chart1.SaveImage($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\{DateTime.Now.ToString().Replace(" ", "T")}.Png", ChartImageFormat.Png);
         }
+
+
     }
 }

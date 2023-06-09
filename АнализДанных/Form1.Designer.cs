@@ -38,6 +38,7 @@
             checkedListBox1 = new CheckedListBox();
             button2 = new Button();
             dataGridView1 = new DataGridView();
+            time = new DataGridViewTextBoxColumn();
             Parameter = new DataGridViewTextBoxColumn();
             value = new DataGridViewTextBoxColumn();
             button3 = new Button();
@@ -62,7 +63,6 @@
             // 
             // chart1
             // 
-            chartArea1.AxisY.IsStartedFromZero = false;
             chartArea1.Name = "ChartArea1";
             chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
@@ -106,14 +106,22 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Parameter, value });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { time, Parameter, value });
             dataGridView1.Location = new Point(12, 134);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
+            dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
             dataGridView1.Size = new Size(416, 506);
             dataGridView1.TabIndex = 7;
+            // 
+            // time
+            // 
+            time.HeaderText = "Время";
+            time.MinimumWidth = 6;
+            time.Name = "time";
+            time.ReadOnly = true;
             // 
             // Parameter
             // 
@@ -165,9 +173,10 @@
         private CheckedListBox checkedListBox1;
         private Button button2;
         private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn Parameter;
-        private DataGridViewTextBoxColumn value;
         private Button button3;
         private SaveFileDialog saveFileDialog1;
+        private DataGridViewTextBoxColumn time;
+        private DataGridViewTextBoxColumn Parameter;
+        private DataGridViewTextBoxColumn value;
     }
 }
