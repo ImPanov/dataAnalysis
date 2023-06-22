@@ -46,7 +46,7 @@ namespace АнализДанных
                             {
                                 try
                                 {
-                                    parametrValues.Add(cells[i, 0].Value.ToString(), double.Parse(cells[i, 2].Value.ToString()));
+                                    parametrValues.Add(cells[i, 0].Value.ToString(), double.Parse(cells[i, 2].Value.ToString().Replace(".",",")));
                                 }
                                 catch
                                 {
@@ -104,9 +104,9 @@ namespace АнализДанных
                 series.Points.DataBindXY(xValues, yValues);
                 chart1.Series.Add(series);
                 chart1.Titles[0].Text = string.Join(" , ", chart1.Series.Select(s => s.Name).ToArray());
-                
+
             }
-            
+
 
         }
 
@@ -153,6 +153,23 @@ namespace АнализДанных
             //chart1.SaveImage($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\{DateTime.Now.ToString().Replace(" ", "T")}.Png", ChartImageFormat.Png);
         }
 
-
+        private void button4_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.Clear();
+            chart1.Series.Clear();
+            chart1.ResetAutoValues();
+            for (int i = 0; i < checkedListBox1.Items.Count; i++)
+            {
+                checkedListBox1.SetItemChecked(i, false);
+            }
+            foreach (var item in checkedListBox1.Items)
+            {
+                
+                foreach (var key in dictFileParameterValue.Keys)
+                {
+                    dataGridView1.Rows.Add(key, item.ToString(), dictFileParameterValue[key][item.ToString()]);
+                }
+            }
+        }
     }
 }

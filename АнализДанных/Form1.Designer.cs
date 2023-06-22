@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
             openFileDialog1 = new OpenFileDialog();
             button1 = new Button();
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -43,6 +43,7 @@
             value = new DataGridViewTextBoxColumn();
             button3 = new Button();
             saveFileDialog1 = new SaveFileDialog();
+            button4 = new Button();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -63,31 +64,31 @@
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            chart1.Legends.Add(legend1);
+            chartArea3.Name = "ChartArea1";
+            chart1.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            chart1.Legends.Add(legend3);
             chart1.Location = new Point(434, 14);
             chart1.Name = "chart1";
-            series1.BorderWidth = 3;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            chart1.Series.Add(series1);
+            series3.BorderWidth = 3;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            chart1.Series.Add(series3);
             chart1.Size = new Size(1130, 626);
             chart1.TabIndex = 4;
             chart1.Tag = "";
             chart1.Text = "Данные";
-            title1.Name = "Title1";
-            chart1.Titles.Add(title1);
+            title3.Name = "Title1";
+            chart1.Titles.Add(title3);
             // 
             // checkedListBox1
             // 
             checkedListBox1.FormattingEnabled = true;
             checkedListBox1.Location = new Point(151, 14);
             checkedListBox1.Name = "checkedListBox1";
-            checkedListBox1.Size = new Size(277, 114);
+            checkedListBox1.Size = new Size(277, 620);
             checkedListBox1.TabIndex = 5;
             // 
             // button2
@@ -107,13 +108,13 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { time, Parameter, value });
-            dataGridView1.Location = new Point(12, 134);
+            dataGridView1.Location = new Point(434, 646);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(416, 506);
+            dataGridView1.Size = new Size(659, 202);
             dataGridView1.TabIndex = 7;
             // 
             // time
@@ -139,13 +140,23 @@
             // 
             // button3
             // 
-            button3.Location = new Point(12, 646);
+            button3.Location = new Point(12, 134);
             button3.Name = "button3";
-            button3.Size = new Size(142, 29);
+            button3.Size = new Size(133, 57);
             button3.TabIndex = 8;
             button3.Text = "Сохранить";
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(12, 197);
+            button4.Name = "button4";
+            button4.Size = new Size(133, 57);
+            button4.TabIndex = 9;
+            button4.Text = "Сбросить";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // Form1
             // 
@@ -153,6 +164,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(1576, 860);
+            Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(dataGridView1);
             Controls.Add(button2);
@@ -178,5 +190,6 @@
         private DataGridViewTextBoxColumn time;
         private DataGridViewTextBoxColumn Parameter;
         private DataGridViewTextBoxColumn value;
+        private Button button4;
     }
 }
